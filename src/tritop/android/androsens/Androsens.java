@@ -63,9 +63,10 @@ public class Androsens extends Activity {
         
         if(!m_sensorlist.isEmpty()){
         	Sensor snsr;
+        	String snstyp;
         	for(int i=0;i<m_sensorlist.size();i++){
         		snsr=m_sensorlist.get(i);
-        		String snstyp;
+        		
         		switch(snsr.getType()){
         		 case Sensor.TYPE_ACCELEROMETER     : snstyp="TYPE_ACCELEROMETER";break;
         		 case Sensor.TYPE_ALL               : snstyp="TYPE_ALL";break;
