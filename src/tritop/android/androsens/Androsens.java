@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  * 
  * You should have received a copy of the GNU General Public License
- * along with OpenSudoku.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Androsens.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
 
@@ -60,6 +60,7 @@ public class Androsens extends Activity {
         
         m_sensormgr  = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
         m_sensorlist =  m_sensormgr.getSensorList(Sensor.TYPE_ALL);
+        
         if(!m_sensorlist.isEmpty()){
         	Sensor snsr;
         	for(int i=0;i<m_sensorlist.size();i++){
@@ -110,6 +111,7 @@ public class Androsens extends Activity {
 		 */
 		@Override
 		public void onSensorChanged(SensorEvent event) {
+			
 			if(event.sensor.getType()==Sensor.TYPE_ORIENTATION){
 			       pb_orientationA.setProgress( (int)event.values[0]);
 			       pb_orientationB.setProgress( Math.abs((int)event.values[1]));
