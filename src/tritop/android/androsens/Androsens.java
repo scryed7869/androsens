@@ -25,6 +25,9 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.hardware.*;
@@ -96,9 +99,9 @@ public class Androsens extends Activity {
         		}
         		if(snsr.getType()==Sensor.TYPE_MAGNETIC_FIELD){
         			magHead.append(snsr.getName()+"\nMaxRange: "+snsr.getMaximumRange()+"\nType: "+snstyp+"");
-        			pb_magneticA.setMax((int)snsr.getMaximumRange()*FLOATTOINTPRECISION);
-        			pb_magneticB.setMax((int)snsr.getMaximumRange()*FLOATTOINTPRECISION);
-        			pb_magneticC.setMax((int)snsr.getMaximumRange()*FLOATTOINTPRECISION);
+        			pb_magneticA.setMax((int)(snsr.getMaximumRange()*FLOATTOINTPRECISION));
+        			pb_magneticB.setMax((int)(snsr.getMaximumRange()*FLOATTOINTPRECISION));
+        			pb_magneticC.setMax((int)(snsr.getMaximumRange()*FLOATTOINTPRECISION));
         			m_sensormgr.registerListener(senseventListener, snsr, SensorManager.SENSOR_DELAY_NORMAL);
         		}
         		
@@ -150,4 +153,28 @@ public class Androsens extends Activity {
 		}
     	
     };
+
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()){
+			case R.id.quit: finish();break;
+			default: break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.menu, menu);
+	    return super.onCreateOptionsMenu(menu);
+	}
 }
