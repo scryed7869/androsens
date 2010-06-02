@@ -64,50 +64,9 @@ public class Androsens extends Activity {
         m_sensormgr  = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
         m_sensorlist =  m_sensormgr.getSensorList(Sensor.TYPE_ALL);
         
-        if(!m_sensorlist.isEmpty()){
-        	Sensor snsr;
-        	String snstyp;
-        	for(int i=0;i<m_sensorlist.size();i++){
-        		snsr=m_sensorlist.get(i);
-        		
-        		switch(snsr.getType()){
-        		 case Sensor.TYPE_ACCELEROMETER     : snstyp="TYPE_ACCELEROMETER";break;
-        		 case Sensor.TYPE_ALL               : snstyp="TYPE_ALL";break;
-        		 case Sensor.TYPE_GYROSCOPE         : snstyp="TYPE_GYROSCOPE";break;
-        		 case Sensor.TYPE_LIGHT             : snstyp="TYPE_LIGHT";break;
-        	 	 case Sensor.TYPE_MAGNETIC_FIELD    : snstyp="TYPE_MAGNETIC_FIELD";break;
-        		 case Sensor.TYPE_ORIENTATION       : snstyp="TYPE_ORIENTATION";break;
-        		 case Sensor.TYPE_PRESSURE          : snstyp="TYPE_PRESSURE";break;
-        		 case Sensor.TYPE_PROXIMITY         : snstyp="TYPE_PROXIMITY";break;
-        		 case Sensor.TYPE_TEMPERATURE       : snstyp="TYPE_TEMPERATURE";break;
-        		 default: snstyp="UNKNOWN_TYPE "+snsr.getType();break;
-        		}
-        		
-        		if(snsr.getType()==Sensor.TYPE_ORIENTATION){
-        			oriHead.append(snsr.getName()+"\nMaxRange: "+snsr.getMaximumRange()+"\nType: "+snstyp+"");
-        			pb_orientationA.setMax((int)snsr.getMaximumRange());
-        			pb_orientationB.setMax((int)snsr.getMaximumRange());
-        			pb_orientationC.setMax((int)snsr.getMaximumRange());
-        			m_sensormgr.registerListener(senseventListener, snsr, SensorManager.SENSOR_DELAY_NORMAL);
-        		}
-        		if(snsr.getType()==Sensor.TYPE_ACCELEROMETER){
-        			accHead.append(snsr.getName()+"\nMaxRange: "+snsr.getMaximumRange()+"\nType: "+snstyp+"");
-        			pb_accelA.setMax((int)(snsr.getMaximumRange()*9.81*FLOATTOINTPRECISION));
-        			pb_accelB.setMax((int)(snsr.getMaximumRange()*9.81*FLOATTOINTPRECISION));
-        			pb_accelC.setMax((int)(snsr.getMaximumRange()*9.81*FLOATTOINTPRECISION));
-        			m_sensormgr.registerListener(senseventListener, snsr, SensorManager.SENSOR_DELAY_NORMAL);
-        		}
-        		if(snsr.getType()==Sensor.TYPE_MAGNETIC_FIELD){
-        			magHead.append(snsr.getName()+"\nMaxRange: "+snsr.getMaximumRange()+"\nType: "+snstyp+"");
-        			pb_magneticA.setMax((int)(snsr.getMaximumRange()*FLOATTOINTPRECISION));
-        			pb_magneticB.setMax((int)(snsr.getMaximumRange()*FLOATTOINTPRECISION));
-        			pb_magneticC.setMax((int)(snsr.getMaximumRange()*FLOATTOINTPRECISION));
-        			m_sensormgr.registerListener(senseventListener, snsr, SensorManager.SENSOR_DELAY_NORMAL);
-        		}
-        		
-        	}
-        }
+        connectSensors();
     }
+    
     SensorEventListener senseventListener = new SensorEventListener(){
 
 		/* (non-Javadoc)
@@ -185,6 +144,7 @@ public class Androsens extends Activity {
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
+		m_sensormgr.unregisterListener(senseventListener);
 		super.onPause();
 	}
 
@@ -195,6 +155,53 @@ public class Androsens extends Activity {
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
+		connectSensors();
 		super.onResume();
+	}
+	
+	protected void connectSensors(){
+		if(!m_sensorlist.isEmpty()){
+        	Sensor snsr;
+        	String snstyp;
+        	for(int i=0;i<m_sensorlist.size();i++){
+        		snsr=m_sensorlist.get(i);
+        		
+        		switch(snsr.getType()){
+        		 case Sensor.TYPE_ACCELEROMETER     : snstyp="TYPE_ACCELEROMETER";break;
+        		 case Sensor.TYPE_ALL               : snstyp="TYPE_ALL";break;
+        		 case Sensor.TYPE_GYROSCOPE         : snstyp="TYPE_GYROSCOPE";break;
+        		 case Sensor.TYPE_LIGHT             : snstyp="TYPE_LIGHT";break;
+        	 	 case Sensor.TYPE_MAGNETIC_FIELD    : snstyp="TYPE_MAGNETIC_FIELD";break;
+        		 case Sensor.TYPE_ORIENTATION       : snstyp="TYPE_ORIENTATION";break;
+        		 case Sensor.TYPE_PRESSURE          : snstyp="TYPE_PRESSURE";break;
+        		 case Sensor.TYPE_PROXIMITY         : snstyp="TYPE_PROXIMITY";break;
+        		 case Sensor.TYPE_TEMPERATURE       : snstyp="TYPE_TEMPERATURE";break;
+        		 default: snstyp="UNKNOWN_TYPE "+snsr.getType();break;
+        		}
+        		
+        		if(snsr.getType()==Sensor.TYPE_ORIENTATION){
+        			oriHead.append(snsr.getName()+"\nMaxRange: "+snsr.getMaximumRange()+"\nType: "+snstyp+"");
+        			pb_orientationA.setMax((int)snsr.getMaximumRange());
+        			pb_orientationB.setMax((int)snsr.getMaximumRange());
+        			pb_orientationC.setMax((int)snsr.getMaximumRange());
+        			m_sensormgr.registerListener(senseventListener, snsr, SensorManager.SENSOR_DELAY_NORMAL);
+        		}
+        		if(snsr.getType()==Sensor.TYPE_ACCELEROMETER){
+        			accHead.append(snsr.getName()+"\nMaxRange: "+snsr.getMaximumRange()+"\nType: "+snstyp+"");
+        			pb_accelA.setMax((int)(snsr.getMaximumRange()*9.81*FLOATTOINTPRECISION));
+        			pb_accelB.setMax((int)(snsr.getMaximumRange()*9.81*FLOATTOINTPRECISION));
+        			pb_accelC.setMax((int)(snsr.getMaximumRange()*9.81*FLOATTOINTPRECISION));
+        			m_sensormgr.registerListener(senseventListener, snsr, SensorManager.SENSOR_DELAY_NORMAL);
+        		}
+        		if(snsr.getType()==Sensor.TYPE_MAGNETIC_FIELD){
+        			magHead.append(snsr.getName()+"\nMaxRange: "+snsr.getMaximumRange()+"\nType: "+snstyp+"");
+        			pb_magneticA.setMax((int)(snsr.getMaximumRange()*FLOATTOINTPRECISION));
+        			pb_magneticB.setMax((int)(snsr.getMaximumRange()*FLOATTOINTPRECISION));
+        			pb_magneticC.setMax((int)(snsr.getMaximumRange()*FLOATTOINTPRECISION));
+        			m_sensormgr.registerListener(senseventListener, snsr, SensorManager.SENSOR_DELAY_NORMAL);
+        		}
+        		
+        	}
+        }
 	}
 }
