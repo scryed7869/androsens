@@ -22,17 +22,20 @@ package tritop.android.androsens;
 
 import java.util.List;
 
-import android.app.Activity;
+//import com.snyder.tabwidgetshow.R;
+
+import android.app.TabActivity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.hardware.*;
 
-public class Androsens extends Activity {
+public class Androsens extends TabActivity {
 	
 	static final int FLOATTOINTPRECISION = 100;
 	
@@ -40,7 +43,7 @@ public class Androsens extends Activity {
 	ProgressBar pb_orientationA,pb_orientationB,pb_orientationC,pb_accelA,pb_accelB,pb_accelC,pb_magneticA,pb_magneticB,pb_magneticC;
 	SensorManager m_sensormgr;
 	List<Sensor> m_sensorlist;
-	
+	protected TabHost mTabHost;
 	
     /** Called when the activity is first created. */
     @Override
@@ -64,7 +67,15 @@ public class Androsens extends Activity {
         m_sensormgr  = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
         m_sensorlist =  m_sensormgr.getSensorList(Sensor.TYPE_ALL);
         
-        connectSensors();
+        mTabHost = getTabHost();
+        
+        mTabHost.addTab(mTabHost.newTabSpec("tab_test1").setIndicator("Orientation").setContent(R.id.LinearLayout02));
+        mTabHost.addTab(mTabHost.newTabSpec("tab_test2").setIndicator("Acceleration").setContent(R.id.LinearLayout03));
+        mTabHost.addTab(mTabHost.newTabSpec("tab_test2").setIndicator("Magnetic field").setContent(R.id.LinearLayout04));
+        
+        mTabHost.setCurrentTab(0);
+        
+        //connectSensors();
     }
     
     SensorEventListener senseventListener = new SensorEventListener(){
