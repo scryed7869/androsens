@@ -11,7 +11,7 @@
 		</TabWidget><FrameLayout android:layout_height="fill_parent" android:layout_width="fill_parent" android:id="@android:id/tabcontent">
 				<LinearLayout android:id="@+id/LinearLayout02" android:layout_width="fill_parent" android:orientation="vertical" android:layout_height="fill_parent">
 					<TextView android:layout_width="fill_parent" android:id="@+id/TextView_oriHead" android:layout_height="wrap_content" />
-					<LinearLayout android:id="@+id/LinearLayout05" android:layout_height="wrap_content" android:layout_width="fill_parent">
+					<TextView android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/oriAccuracy"></TextView><LinearLayout android:id="@+id/LinearLayout05" android:layout_height="wrap_content" android:layout_width="fill_parent">
 						<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="50px" android:id="@+id/TextView_oriA" />
 						<ProgressBar android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/ProgressBar_oriA" style="?android:attr/progressBarStyleHorizontal" />
 					</LinearLayout>
@@ -23,10 +23,11 @@
 						<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="50px" android:id="@+id/TextView_oriC" />
 						<ProgressBar android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/ProgressBar_oriC" style="?android:attr/progressBarStyleHorizontal" />
 					</LinearLayout>
-				</LinearLayout>
+				
+</LinearLayout>
 				<LinearLayout android:id="@+id/LinearLayout03" android:layout_width="fill_parent" android:orientation="vertical" android:layout_height="fill_parent">
 					<TextView android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/TextView_accHead" />
-					<LinearLayout android:id="@+id/LinearLayout08" android:layout_height="wrap_content" android:layout_width="fill_parent">
+					<TextView android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/accAccuracy"></TextView><LinearLayout android:id="@+id/LinearLayout08" android:layout_height="wrap_content" android:layout_width="fill_parent">
 						<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="50px" android:id="@+id/TextView_accA" />
 						<ProgressBar android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/ProgressBar_accA" style="?android:attr/progressBarStyleHorizontal" />
 					</LinearLayout>
@@ -38,9 +39,10 @@
 						<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="50px" android:id="@+id/TextView_accC" />
 						<ProgressBar android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/ProgressBar_accC" style="?android:attr/progressBarStyleHorizontal" />
 					</LinearLayout>
-				</LinearLayout>
+				
+</LinearLayout>
 				<LinearLayout android:id="@+id/LinearLayout04" android:layout_width="fill_parent" android:orientation="vertical" android:layout_height="fill_parent">
-					<TextView android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/TextView_magHead" />
+					<TextView android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/TextView_magHead" /><TextView android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/magAccuracy"></TextView>
 					<LinearLayout android:id="@+id/LinearLayout11" android:layout_height="wrap_content" android:layout_width="fill_parent">
 						<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="50px" android:id="@+id/TextView_magA" />
 						<ProgressBar android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/ProgressBar_magA" style="?android:attr/progressBarStyleHorizontal" />
@@ -53,8 +55,11 @@
 						<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="50px" android:id="@+id/TextView_magC" />
 						<ProgressBar android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/ProgressBar_magC" style="?android:attr/progressBarStyleHorizontal" />
 					</LinearLayout>
-				</LinearLayout>
-			</FrameLayout>
+				
+</LinearLayout>
+			<ScrollView android:layout_height="fill_parent" android:layout_width="fill_parent" android:id="@+id/ScrollViewOverview"><TextView android:layout_height="fill_parent" android:layout_width="fill_parent" android:id="@+id/TextViewOverview"></TextView>
+</ScrollView>
+</FrameLayout>
 		</LinearLayout>
 </TabHost>
 

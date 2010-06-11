@@ -35,11 +35,11 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.hardware.*;
 
-public class Androsens extends TabActivity {
+public class Androsens extends TabActivity implements TabHost.OnTabChangeListener{
 	
 	static final int FLOATTOINTPRECISION = 100;
 	
-	TextView oriHead,accHead,magHead,tv_orientationA,tv_orientationB,tv_orientationC,tv_accelA,tv_accelB,tv_accelC,tv_magneticA,tv_magneticB,tv_magneticC;
+	TextView oriHead,accHead,magHead,oriAccu,accAccu,magAccu,tv_orientationA,tv_orientationB,tv_orientationC,tv_accelA,tv_accelB,tv_accelC,tv_magneticA,tv_magneticB,tv_magneticC,tv_overview;
 	ProgressBar pb_orientationA,pb_orientationB,pb_orientationC,pb_accelA,pb_accelB,pb_accelC,pb_magneticA,pb_magneticB,pb_magneticC;
 	SensorManager m_sensormgr;
 	List<Sensor> m_sensorlist;
@@ -54,6 +54,11 @@ public class Androsens extends TabActivity {
         oriHead = (TextView) this.findViewById(R.id.TextView_oriHead);
         accHead = (TextView) this.findViewById(R.id.TextView_accHead);
         magHead = (TextView) this.findViewById(R.id.TextView_magHead);
+        
+        oriAccu = (TextView) this.findViewById(R.id.oriAccuracy);
+        accAccu = (TextView) this.findViewById(R.id.accAccuracy);
+        magAccu = (TextView) this.findViewById(R.id.magAccuracy);
+        
         tv_orientationA = (TextView) this.findViewById(R.id.TextView_oriA); pb_orientationA = (ProgressBar) this.findViewById(R.id.ProgressBar_oriA);
         tv_orientationB = (TextView) this.findViewById(R.id.TextView_oriB); pb_orientationB = (ProgressBar) this.findViewById(R.id.ProgressBar_oriB);
         tv_orientationC = (TextView) this.findViewById(R.id.TextView_oriC); pb_orientationC = (ProgressBar) this.findViewById(R.id.ProgressBar_oriC);
@@ -64,16 +69,20 @@ public class Androsens extends TabActivity {
         tv_magneticB = (TextView) this.findViewById(R.id.TextView_magB);    pb_magneticB = (ProgressBar) this.findViewById(R.id.ProgressBar_magB);
         tv_magneticC = (TextView) this.findViewById(R.id.TextView_magC);    pb_magneticC = (ProgressBar) this.findViewById(R.id.ProgressBar_magC);
         
+        tv_overview= (TextView) this.findViewById(R.id.TextViewOverview);
+        
         m_sensormgr  = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
         m_sensorlist =  m_sensormgr.getSensorList(Sensor.TYPE_ALL);
         
         mTabHost = getTabHost();
         
-        mTabHost.addTab(mTabHost.newTabSpec("tab_test1").setIndicator("Orientation").setContent(R.id.LinearLayout02));
-        mTabHost.addTab(mTabHost.newTabSpec("tab_test2").setIndicator("Acceleration").setContent(R.id.LinearLayout03));
-        mTabHost.addTab(mTabHost.newTabSpec("tab_test2").setIndicator("Magnetic field").setContent(R.id.LinearLayout04));
+        mTabHost.addTab(mTabHost.newTabSpec("tab_1").setIndicator("Orientation").setContent(R.id.LinearLayout02));
+        mTabHost.addTab(mTabHost.newTabSpec("tab_2").setIndicator("Acceleration").setContent(R.id.LinearLayout03));
+        mTabHost.addTab(mTabHost.newTabSpec("tab_3").setIndicator("Magnetic field").setContent(R.id.LinearLayout04));
+        mTabHost.addTab(mTabHost.newTabSpec("tab_4").setIndicator("Overview").setContent(R.id.ScrollViewOverview));
         
         mTabHost.setCurrentTab(0);
+        mTabHost.setOnTabChangedListener(this);
         
         //connectSensors();
     }
@@ -85,8 +94,18 @@ public class Androsens extends TabActivity {
 		 */
 		@Override
 		public void onSensorChanged(SensorEvent event) {
+			String accuracy;
+			
+			switch(event.accuracy){
+				case SensorManager.SENSOR_STATUS_ACCURACY_HIGH: accuracy="SENSOR_STATUS_ACCURACY_HIGH";break;
+				case SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM: accuracy="SENSOR_STATUS_ACCURACY_MEDIUM";break;
+				case SensorManager.SENSOR_STATUS_ACCURACY_LOW: accuracy="SENSOR_STATUS_ACCURACY_LOW";break;
+				case SensorManager.SENSOR_STATUS_UNRELIABLE: accuracy="SENSOR_STATUS_UNRELABLE";break;
+				default: accuracy="UNKNOWN";
+			}
 			
 			if(event.sensor.getType()==Sensor.TYPE_ORIENTATION){
+				   oriAccu.setText(accuracy);
 			       pb_orientationA.setProgress( (int)event.values[0]);
 			       pb_orientationB.setProgress( Math.abs((int)event.values[1]));
 			       pb_orientationC.setProgress( Math.abs((int)event.values[2]));
@@ -95,6 +114,7 @@ public class Androsens extends TabActivity {
 			       tv_orientationC.setText(""+event.values[2]);
 			}
 			if(event.sensor.getType()==Sensor.TYPE_ACCELEROMETER){
+				   accAccu.setText(accuracy);
 				   pb_accelA.setProgress( Math.abs( (int) event.values[0]*FLOATTOINTPRECISION ));
 				   pb_accelB.setProgress( Math.abs( (int) event.values[1]*FLOATTOINTPRECISION ));
 				   pb_accelC.setProgress( Math.abs( (int) event.values[2]*FLOATTOINTPRECISION ));
@@ -103,6 +123,7 @@ public class Androsens extends TabActivity {
 				   tv_accelC.setText(String.format("%.3f",event.values[2]));
 				}
 			if(event.sensor.getType()==Sensor.TYPE_MAGNETIC_FIELD){
+				   magAccu.setText(accuracy);
 				   pb_magneticA.setProgress( Math.abs((int)event.values[0]*FLOATTOINTPRECISION ));
 				   pb_magneticB.setProgress( Math.abs((int)event.values[1]*FLOATTOINTPRECISION ));
 				   pb_magneticC.setProgress( Math.abs((int)event.values[2]*FLOATTOINTPRECISION ));
@@ -170,49 +191,78 @@ public class Androsens extends TabActivity {
 		super.onResume();
 	}
 	
+	protected String getSensorInfo(Sensor sen){
+	 String sensorInfo="";
+	 String snsType;
+	 
+	 switch(sen.getType()){
+	 	case Sensor.TYPE_ACCELEROMETER     : snsType="TYPE_ACCELEROMETER";break;
+	 	case Sensor.TYPE_ALL               : snsType="TYPE_ALL";break;
+	 	case Sensor.TYPE_GYROSCOPE         : snsType="TYPE_GYROSCOPE";break;
+	 	case Sensor.TYPE_LIGHT             : snsType="TYPE_LIGHT";break;
+	 	case Sensor.TYPE_MAGNETIC_FIELD    : snsType="TYPE_MAGNETIC_FIELD";break;
+	 	case Sensor.TYPE_ORIENTATION       : snsType="TYPE_ORIENTATION";break;
+	 	case Sensor.TYPE_PRESSURE          : snsType="TYPE_PRESSURE";break;
+	 	case Sensor.TYPE_PROXIMITY         : snsType="TYPE_PROXIMITY";break;
+	 	case Sensor.TYPE_TEMPERATURE       : snsType="TYPE_TEMPERATURE";break;
+	 	default: snsType="UNKNOWN_TYPE "+sen.getType();break;
+	 }
+
+	 sensorInfo=sen.getName()+"\n";
+	 sensorInfo+="Version: "+sen.getVersion()+"\n";
+	 sensorInfo+="Vendor: "+sen.getVendor()+"\n";
+	 sensorInfo+="Type: "+snsType+"\n";
+	 sensorInfo+="MaxRange: "+sen.getMaximumRange()+"\n";
+	 sensorInfo+="Resolution: "+sen.getResolution()+"\n";
+	 sensorInfo+="Power: "+sen.getPower()+"\n";
+	 return sensorInfo;	
+	}
+	
+	
 	protected void connectSensors(){
+		m_sensormgr.unregisterListener(senseventListener);
 		if(!m_sensorlist.isEmpty()){
         	Sensor snsr;
         	String snstyp;
         	for(int i=0;i<m_sensorlist.size();i++){
         		snsr=m_sensorlist.get(i);
         		
-        		switch(snsr.getType()){
-        		 case Sensor.TYPE_ACCELEROMETER     : snstyp="TYPE_ACCELEROMETER";break;
-        		 case Sensor.TYPE_ALL               : snstyp="TYPE_ALL";break;
-        		 case Sensor.TYPE_GYROSCOPE         : snstyp="TYPE_GYROSCOPE";break;
-        		 case Sensor.TYPE_LIGHT             : snstyp="TYPE_LIGHT";break;
-        	 	 case Sensor.TYPE_MAGNETIC_FIELD    : snstyp="TYPE_MAGNETIC_FIELD";break;
-        		 case Sensor.TYPE_ORIENTATION       : snstyp="TYPE_ORIENTATION";break;
-        		 case Sensor.TYPE_PRESSURE          : snstyp="TYPE_PRESSURE";break;
-        		 case Sensor.TYPE_PROXIMITY         : snstyp="TYPE_PROXIMITY";break;
-        		 case Sensor.TYPE_TEMPERATURE       : snstyp="TYPE_TEMPERATURE";break;
-        		 default: snstyp="UNKNOWN_TYPE "+snsr.getType();break;
-        		}
-        		
-        		if(snsr.getType()==Sensor.TYPE_ORIENTATION){
-        			oriHead.append(snsr.getName()+"\nMaxRange: "+snsr.getMaximumRange()+"\nType: "+snstyp+"");
+        		if(snsr.getType()==Sensor.TYPE_ORIENTATION && mTabHost.getCurrentTab()== 0 ){
+        			oriHead.setText(getSensorInfo(snsr));
         			pb_orientationA.setMax((int)snsr.getMaximumRange());
         			pb_orientationB.setMax((int)snsr.getMaximumRange());
         			pb_orientationC.setMax((int)snsr.getMaximumRange());
         			m_sensormgr.registerListener(senseventListener, snsr, SensorManager.SENSOR_DELAY_NORMAL);
         		}
-        		if(snsr.getType()==Sensor.TYPE_ACCELEROMETER){
-        			accHead.append(snsr.getName()+"\nMaxRange: "+snsr.getMaximumRange()+"\nType: "+snstyp+"");
+        		if(snsr.getType()==Sensor.TYPE_ACCELEROMETER && mTabHost.getCurrentTab()== 1){
+        			accHead.setText(getSensorInfo(snsr));
         			pb_accelA.setMax((int)(snsr.getMaximumRange()*9.81*FLOATTOINTPRECISION));
         			pb_accelB.setMax((int)(snsr.getMaximumRange()*9.81*FLOATTOINTPRECISION));
         			pb_accelC.setMax((int)(snsr.getMaximumRange()*9.81*FLOATTOINTPRECISION));
         			m_sensormgr.registerListener(senseventListener, snsr, SensorManager.SENSOR_DELAY_NORMAL);
         		}
-        		if(snsr.getType()==Sensor.TYPE_MAGNETIC_FIELD){
-        			magHead.append(snsr.getName()+"\nMaxRange: "+snsr.getMaximumRange()+"\nType: "+snstyp+"");
+        		if(snsr.getType()==Sensor.TYPE_MAGNETIC_FIELD && mTabHost.getCurrentTab()== 2){
+        			magHead.setText(getSensorInfo(snsr));
         			pb_magneticA.setMax((int)(snsr.getMaximumRange()*FLOATTOINTPRECISION));
         			pb_magneticB.setMax((int)(snsr.getMaximumRange()*FLOATTOINTPRECISION));
         			pb_magneticC.setMax((int)(snsr.getMaximumRange()*FLOATTOINTPRECISION));
         			m_sensormgr.registerListener(senseventListener, snsr, SensorManager.SENSOR_DELAY_NORMAL);
         		}
-        		
+        		if(mTabHost.getCurrentTab()== 3){
+        			tv_overview.append(getSensorInfo(snsr)+"\n\n");
+        		}
         	}
         }
+	}
+
+
+	/* (non-Javadoc)
+	 * @see android.widget.TabHost.OnTabChangeListener#onTabChanged(java.lang.String)
+	 */
+	@Override
+	public void onTabChanged(String arg0) {
+		mTabHost.getCurrentTab();
+		tv_overview.setText("");
+		connectSensors();
 	}
 }
