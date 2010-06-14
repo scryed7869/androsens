@@ -57,6 +57,13 @@
 					</LinearLayout>
 				
 </LinearLayout>
+<LinearLayout android:id="@+id/LinearLayoutLight" android:layout_width="fill_parent" android:orientation="vertical" android:layout_height="fill_parent">
+					<TextView android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/TextView_ligHead" /><TextView android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/ligAccuracy"></TextView>
+					<LinearLayout android:id="@+id/LinearLayoutLightBar" android:layout_height="wrap_content" android:layout_width="fill_parent">
+						<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="50px" android:id="@+id/TextView_ligA" />
+						<ProgressBar android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/ProgressBar_ligA" style="?android:attr/progressBarStyleHorizontal" />
+					</LinearLayout>	
+</LinearLayout>
 			<ScrollView android:layout_height="fill_parent" android:layout_width="fill_parent" android:id="@+id/ScrollViewOverview"><TextView android:layout_height="fill_parent" android:layout_width="fill_parent" android:id="@+id/TextViewOverview"></TextView>
 </ScrollView>
 </FrameLayout>
