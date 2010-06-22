@@ -123,23 +123,23 @@ public class Androsens extends TabActivity implements TabHost.OnTabChangeListene
 				   pb_accelA.setProgress( Math.abs( (int) event.values[0]*FLOATTOINTPRECISION ));
 				   pb_accelB.setProgress( Math.abs( (int) event.values[1]*FLOATTOINTPRECISION ));
 				   pb_accelC.setProgress( Math.abs( (int) event.values[2]*FLOATTOINTPRECISION ));
-				   tv_accelA.setText(String.format("%.3f",event.values[0]));
-				   tv_accelB.setText(String.format("%.3f",event.values[1]));
-				   tv_accelC.setText(String.format("%.3f",event.values[2]));
+				   tv_accelA.setText(String.format("%.2f",event.values[0]));
+				   tv_accelB.setText(String.format("%.2f",event.values[1]));
+				   tv_accelC.setText(String.format("%.2f",event.values[2]));
 				}
 			if(event.sensor.getType()==Sensor.TYPE_MAGNETIC_FIELD){
 				   magAccu.setText(accuracy);
 				   pb_magneticA.setProgress( Math.abs((int)event.values[0]*FLOATTOINTPRECISION ));
 				   pb_magneticB.setProgress( Math.abs((int)event.values[1]*FLOATTOINTPRECISION ));
 				   pb_magneticC.setProgress( Math.abs((int)event.values[2]*FLOATTOINTPRECISION ));
-				   tv_magneticA.setText(String.format("%.3f",event.values[0]));
-				   tv_magneticB.setText(String.format("%.3f",event.values[1]));
-				   tv_magneticC.setText(String.format("%.3f",event.values[2]));
+				   tv_magneticA.setText(String.format("%.2f",event.values[0]));
+				   tv_magneticB.setText(String.format("%.2f",event.values[1]));
+				   tv_magneticC.setText(String.format("%.2f",event.values[2]));
 				}
 			if(event.sensor.getType()==Sensor.TYPE_LIGHT){
 				   ligAccu.setText(accuracy);
 				   pb_lightA.setProgress( Math.abs((int)event.values[0]));
-				   tv_lightA.setText(String.format("%.3f",event.values[0]));
+				   tv_lightA.setText(String.format("%.2f",event.values[0]));
 				}
 		}
 
@@ -201,7 +201,7 @@ public class Androsens extends TabActivity implements TabHost.OnTabChangeListene
 	}
 	
 	protected String getSensorInfo(Sensor sen){
-	 String sensorInfo="";
+	 String sensorInfo="INVALID";
 	 String snsType;
 	 
 	 switch(sen.getType()){
@@ -232,7 +232,6 @@ public class Androsens extends TabActivity implements TabHost.OnTabChangeListene
 		m_sensormgr.unregisterListener(senseventListener);
 		if(!m_sensorlist.isEmpty()){
         	Sensor snsr;
-        	String snstyp;
         	for(int i=0;i<m_sensorlist.size();i++){
         		snsr=m_sensorlist.get(i);
         		
@@ -245,9 +244,9 @@ public class Androsens extends TabActivity implements TabHost.OnTabChangeListene
         		}
         		if(snsr.getType()==Sensor.TYPE_ACCELEROMETER && mTabHost.getCurrentTab()== 1){
         			accHead.setText(getSensorInfo(snsr));
-        			pb_accelA.setMax((int)(snsr.getMaximumRange()*9.81*FLOATTOINTPRECISION));
-        			pb_accelB.setMax((int)(snsr.getMaximumRange()*9.81*FLOATTOINTPRECISION));
-        			pb_accelC.setMax((int)(snsr.getMaximumRange()*9.81*FLOATTOINTPRECISION));
+        			pb_accelA.setMax((int)(snsr.getMaximumRange()*SensorManager.GRAVITY_EARTH*FLOATTOINTPRECISION));
+        			pb_accelB.setMax((int)(snsr.getMaximumRange()*SensorManager.GRAVITY_EARTH*FLOATTOINTPRECISION));
+        			pb_accelC.setMax((int)(snsr.getMaximumRange()*SensorManager.GRAVITY_EARTH*FLOATTOINTPRECISION));
         			m_sensormgr.registerListener(senseventListener, snsr, SensorManager.SENSOR_DELAY_NORMAL);
         		}
         		if(snsr.getType()==Sensor.TYPE_MAGNETIC_FIELD && mTabHost.getCurrentTab()== 2){
@@ -275,7 +274,6 @@ public class Androsens extends TabActivity implements TabHost.OnTabChangeListene
 	 */
 	@Override
 	public void onTabChanged(String arg0) {
-		mTabHost.getCurrentTab();
 		tv_overview.setText("");
 		connectSensors();
 	}
