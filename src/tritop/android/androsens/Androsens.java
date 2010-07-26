@@ -39,8 +39,8 @@ public class Androsens extends TabActivity implements TabHost.OnTabChangeListene
 	
 	static final int FLOATTOINTPRECISION = 100;
 	
-	TextView oriHead,accHead,magHead,ligHead,proxHead,oriAccu,accAccu,magAccu,ligAccu,proxAccu,tv_orientationA,tv_orientationB,tv_orientationC,tv_accelA,tv_accelB,tv_accelC,tv_magneticA,tv_magneticB,tv_magneticC,tv_lightA,tv_proxA,tv_overview;
-	ProgressBar pb_orientationA,pb_orientationB,pb_orientationC,pb_accelA,pb_accelB,pb_accelC,pb_magneticA,pb_magneticB,pb_magneticC,pb_lightA,pb_proxA;
+	TextView oriHead,accHead,magHead,ligHead,proxHead,presHead,tempHead,oriAccu,accAccu,magAccu,ligAccu,proxAccu,presAccu,tempAccu,tv_orientationA,tv_orientationB,tv_orientationC,tv_accelA,tv_accelB,tv_accelC,tv_magneticA,tv_magneticB,tv_magneticC,tv_lightA,tv_proxA,tv_presA,tv_tempA,tv_overview;
+	ProgressBar pb_orientationA,pb_orientationB,pb_orientationC,pb_accelA,pb_accelB,pb_accelC,pb_magneticA,pb_magneticB,pb_magneticC,pb_lightA,pb_proxA,pb_presA,pb_tempA;
 	SensorManager m_sensormgr;
 	List<Sensor> m_sensorlist;
 	protected TabHost mTabHost;
@@ -56,12 +56,17 @@ public class Androsens extends TabActivity implements TabHost.OnTabChangeListene
         magHead = (TextView) this.findViewById(R.id.TextView_magHead);
         ligHead = (TextView) this.findViewById(R.id.TextView_ligHead);
         proxHead = (TextView) this.findViewById(R.id.TextView_proxHead);
+        presHead = (TextView) this.findViewById(R.id.TextView_presHead);
+        tempHead = (TextView) this.findViewById(R.id.TextView_tempHead);
         
         oriAccu = (TextView) this.findViewById(R.id.oriAccuracy);
         accAccu = (TextView) this.findViewById(R.id.accAccuracy);
         magAccu = (TextView) this.findViewById(R.id.magAccuracy);
         ligAccu = (TextView) this.findViewById(R.id.ligAccuracy);
         proxAccu = (TextView) this.findViewById(R.id.proxAccuracy);
+        presAccu = (TextView) this.findViewById(R.id.presAccuracy);
+        tempAccu = (TextView) this.findViewById(R.id.tempAccuracy);
+        
         
         tv_orientationA = (TextView) this.findViewById(R.id.TextView_oriA); pb_orientationA = (ProgressBar) this.findViewById(R.id.ProgressBar_oriA);
         tv_orientationB = (TextView) this.findViewById(R.id.TextView_oriB); pb_orientationB = (ProgressBar) this.findViewById(R.id.ProgressBar_oriB);
@@ -74,6 +79,8 @@ public class Androsens extends TabActivity implements TabHost.OnTabChangeListene
         tv_magneticC = (TextView) this.findViewById(R.id.TextView_magC);    pb_magneticC = (ProgressBar) this.findViewById(R.id.ProgressBar_magC);
         tv_lightA = (TextView) this.findViewById(R.id.TextView_ligA);    pb_lightA = (ProgressBar) this.findViewById(R.id.ProgressBar_ligA);
         tv_proxA = (TextView) this.findViewById(R.id.TextView_proxA);    pb_proxA = (ProgressBar) this.findViewById(R.id.ProgressBar_proxA);
+        tv_presA = (TextView) this.findViewById(R.id.TextView_presA);    pb_presA = (ProgressBar) this.findViewById(R.id.ProgressBar_presA);
+        tv_tempA = (TextView) this.findViewById(R.id.TextView_tempA);    pb_tempA = (ProgressBar) this.findViewById(R.id.ProgressBar_tempA);
         
         
         tv_overview= (TextView) this.findViewById(R.id.TextViewOverview);
@@ -88,7 +95,9 @@ public class Androsens extends TabActivity implements TabHost.OnTabChangeListene
         mTabHost.addTab(mTabHost.newTabSpec("tab_3").setIndicator("Magnetic field").setContent(R.id.LinearLayout04));
         mTabHost.addTab(mTabHost.newTabSpec("tab_4").setIndicator("Light").setContent(R.id.LinearLayoutLight));
         mTabHost.addTab(mTabHost.newTabSpec("tab_5").setIndicator("Proximity").setContent(R.id.LinearLayoutProx));
-        mTabHost.addTab(mTabHost.newTabSpec("tab_6").setIndicator("Overview").setContent(R.id.ScrollViewOverview));
+        mTabHost.addTab(mTabHost.newTabSpec("tab_6").setIndicator("Pressure").setContent(R.id.LinearLayoutPres));
+        mTabHost.addTab(mTabHost.newTabSpec("tab_7").setIndicator("Temperatur").setContent(R.id.LinearLayoutTemp));
+        mTabHost.addTab(mTabHost.newTabSpec("tab_8").setIndicator("Overview").setContent(R.id.ScrollViewOverview));
         
         mTabHost.setCurrentTab(0);
         mTabHost.setOnTabChangedListener(this);
@@ -149,6 +158,16 @@ public class Androsens extends TabActivity implements TabHost.OnTabChangeListene
 				   proxAccu.setText(accuracy);
 				   pb_proxA.setProgress( Math.abs((int)event.values[0]));
 				   tv_proxA.setText(String.format("%.2f",event.values[0]));
+				}
+			if(event.sensor.getType()==Sensor.TYPE_PRESSURE){
+				   presAccu.setText(accuracy);
+				   pb_presA.setProgress( Math.abs((int)event.values[0]));
+				   tv_presA.setText(String.format("%.2f",event.values[0]));
+				}
+			if(event.sensor.getType()==Sensor.TYPE_TEMPERATURE){
+				   tempAccu.setText(accuracy);
+				   pb_tempA.setProgress( Math.abs((int)event.values[0]));
+				   tv_tempA.setText(String.format("%.2f",event.values[0]));
 				}
 		}
 
@@ -275,7 +294,17 @@ public class Androsens extends TabActivity implements TabHost.OnTabChangeListene
         			pb_proxA.setMax((int)(snsr.getMaximumRange()));
         			m_sensormgr.registerListener(senseventListener, snsr, SensorManager.SENSOR_DELAY_NORMAL);
         		}
-        		if(mTabHost.getCurrentTab()== 5){
+        		if(snsr.getType()==Sensor.TYPE_PRESSURE && mTabHost.getCurrentTab()== 5){
+        			presHead.setText(getSensorInfo(snsr));
+        			pb_presA.setMax((int)(snsr.getMaximumRange()));
+        			m_sensormgr.registerListener(senseventListener, snsr, SensorManager.SENSOR_DELAY_NORMAL);
+        		}
+        		if(snsr.getType()==Sensor.TYPE_TEMPERATURE && mTabHost.getCurrentTab()== 6){
+        			tempHead.setText(getSensorInfo(snsr));
+        			pb_tempA.setMax((int)(snsr.getMaximumRange()));
+        			m_sensormgr.registerListener(senseventListener, snsr, SensorManager.SENSOR_DELAY_NORMAL);
+        		}
+        		if(mTabHost.getCurrentTab()== 7){
         			tv_overview.append(getSensorInfo(snsr)+"\n\n");
         		}
         	}

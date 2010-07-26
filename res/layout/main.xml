@@ -71,6 +71,20 @@
 						<ProgressBar android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/ProgressBar_proxA" style="?android:attr/progressBarStyleHorizontal" />
 					</LinearLayout>	
 </LinearLayout>
+<LinearLayout android:id="@+id/LinearLayoutPres" android:layout_width="fill_parent" android:orientation="vertical" android:layout_height="fill_parent">
+					<TextView android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/TextView_presHead" android:text="No Sensor found"/><TextView android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/presAccuracy"></TextView>
+					<LinearLayout android:id="@+id/LinearLayoutPresBar" android:layout_height="wrap_content" android:layout_width="fill_parent">
+						<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="50px" android:id="@+id/TextView_presA" />
+						<ProgressBar android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/ProgressBar_presA" style="?android:attr/progressBarStyleHorizontal" />
+					</LinearLayout>	
+</LinearLayout>
+<LinearLayout android:id="@+id/LinearLayoutTemp" android:layout_width="fill_parent" android:orientation="vertical" android:layout_height="fill_parent">
+					<TextView android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/TextView_tempHead" android:text="No Sensor found"/><TextView android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/tempAccuracy"></TextView>
+					<LinearLayout android:id="@+id/LinearLayoutTempBar" android:layout_height="wrap_content" android:layout_width="fill_parent">
+						<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="50px" android:id="@+id/TextView_tempA" />
+						<ProgressBar android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/ProgressBar_tempA" style="?android:attr/progressBarStyleHorizontal" />
+					</LinearLayout>	
+</LinearLayout>
 			<ScrollView android:layout_height="fill_parent" android:layout_width="fill_parent" android:id="@+id/ScrollViewOverview"><TextView android:layout_height="fill_parent" android:layout_width="fill_parent" android:id="@+id/TextViewOverview"></TextView>
 </ScrollView>
 </FrameLayout>
