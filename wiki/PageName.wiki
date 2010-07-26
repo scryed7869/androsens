@@ -1,2 +1,0 @@
-*pressure* and *temperature* not testet.
-Any Android phones out there with those sensors?
