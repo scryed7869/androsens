@@ -23,8 +23,12 @@ package tritop.android.androsens;
 import java.util.List;
 
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.TabActivity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,7 +42,8 @@ import android.hardware.*;
 public class Androsens extends TabActivity implements TabHost.OnTabChangeListener{
 	
 	static final int FLOATTOINTPRECISION = 100;
-	
+	static final int LICENSEDIALOG = 10;
+	SharedPreferences mpref;
 	TextView oriHead,accHead,magHead,ligHead,proxHead,presHead,tempHead,oriAccu,accAccu,magAccu,ligAccu,proxAccu,presAccu,tempAccu,tv_orientationA,tv_orientationB,tv_orientationC,tv_accelA,tv_accelB,tv_accelC,tv_magneticA,tv_magneticB,tv_magneticC,tv_lightA,tv_proxA,tv_presA,tv_tempA,tv_overview;
 	ProgressBar pb_orientationA,pb_orientationB,pb_orientationC,pb_accelA,pb_accelB,pb_accelC,pb_magneticA,pb_magneticB,pb_magneticC,pb_lightA,pb_proxA,pb_presA,pb_tempA;
 	SensorManager m_sensormgr;
@@ -49,9 +54,13 @@ public class Androsens extends TabActivity implements TabHost.OnTabChangeListene
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        
+        requestWindowFeature(Window.FEATURE_NO_TITLE);        
         setContentView(R.layout.main);
+        
+        mpref = this.getSharedPreferences("PREFERENCES", MODE_PRIVATE);
+        if(!mpref.getBoolean("license", false)){
+        	showDialog(LICENSEDIALOG);
+        }
         
         oriHead = (TextView) this.findViewById(R.id.TextView_oriHead);
         accHead = (TextView) this.findViewById(R.id.TextView_accHead);
@@ -184,6 +193,7 @@ public class Androsens extends TabActivity implements TabHost.OnTabChangeListene
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()){
 			case R.id.quit: finish();break;
+			case R.id.license:showDialog(LICENSEDIALOG);break;
 			default: break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -299,5 +309,41 @@ public class Androsens extends TabActivity implements TabHost.OnTabChangeListene
 	public void onTabChanged(String arg0) {
 		tv_overview.setText("");
 		connectSensors();
+	}
+	
+	private void licenseAccepted(boolean accepted){
+		if(accepted){
+			mpref.edit().putBoolean("license", true).commit();
+		}
+		else {
+			mpref.edit().putBoolean("license", false).commit();
+			this.finish();
+		}
+	}
+
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		Dialog dialog = null;
+		switch(id){
+			case LICENSEDIALOG: 
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setMessage("Androsens is licensed under the GPL v3 license (http://www.gnu.org/licenses/gpl-3.0.html)\nMore information on http://code.google.com/p/androsens/")
+				       .setCancelable(false)
+				       .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+				           public void onClick(DialogInterface dialog, int id) {
+				                licenseAccepted(true);
+				           }
+				       })
+				       .setNegativeButton("Refuse", new DialogInterface.OnClickListener() {
+				           public void onClick(DialogInterface dialog, int id) {
+				        	   licenseAccepted(false);
+				           }
+				       });
+				dialog = builder.create();
+				break;
+			default: dialog=null;break;
+		}
+		return dialog;
 	}
 }
