@@ -22,7 +22,6 @@ package tritop.android.androsens;
 
 import java.util.List;
 
-//import com.snyder.tabwidgetshow.R;
 
 import android.app.TabActivity;
 import android.content.Context;
@@ -30,6 +29,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.ProgressBar;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -49,6 +49,8 @@ public class Androsens extends TabActivity implements TabHost.OnTabChangeListene
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        
         setContentView(R.layout.main);
         
         oriHead = (TextView) this.findViewById(R.id.TextView_oriHead);
@@ -107,9 +109,7 @@ public class Androsens extends TabActivity implements TabHost.OnTabChangeListene
     
     SensorEventListener senseventListener = new SensorEventListener(){
 
-		/* (non-Javadoc)
-		 * @see android.hardware.SensorEventListener#onSensorChanged(android.hardware.SensorEvent)
-		 */
+		
 		@Override
 		public void onSensorChanged(SensorEvent event) {
 			String accuracy;
@@ -171,21 +171,15 @@ public class Androsens extends TabActivity implements TabHost.OnTabChangeListene
 				}
 		}
 
-		/* (non-Javadoc)
-		 * @see android.hardware.SensorEventListener#onAccuracyChanged(android.hardware.Sensor, int)
-		 */
 		@Override
 		public void onAccuracyChanged(Sensor sensor, int accuracy) {
-			// TODO Auto-generated method stub
+			
 			
 		}
     	
     };
 
 
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
-	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()){
@@ -196,9 +190,6 @@ public class Androsens extends TabActivity implements TabHost.OnTabChangeListene
 	}
 
 
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
-	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
@@ -207,23 +198,15 @@ public class Androsens extends TabActivity implements TabHost.OnTabChangeListene
 	}
 
 
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onPause()
-	 */
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
 		m_sensormgr.unregisterListener(senseventListener);
 		super.onPause();
 	}
 
 
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onResume()
-	 */
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		connectSensors();
 		super.onResume();
 	}
@@ -250,8 +233,8 @@ public class Androsens extends TabActivity implements TabHost.OnTabChangeListene
 	 sensorInfo+="Vendor: "+sen.getVendor()+"\n";
 	 sensorInfo+="Type: "+snsType+"\n";
 	 sensorInfo+="MaxRange: "+sen.getMaximumRange()+"\n";
-	 sensorInfo+="Resolution: "+sen.getResolution()+"\n";
-	 sensorInfo+="Power: "+sen.getPower()+"\n";
+	 sensorInfo+="Resolution: "+String.format("%.5f",sen.getResolution())+"\n";
+	 sensorInfo+="Power: "+sen.getPower()+" mA\n";
 	 return sensorInfo;	
 	}
 	
@@ -312,9 +295,6 @@ public class Androsens extends TabActivity implements TabHost.OnTabChangeListene
 	}
 
 
-	/* (non-Javadoc)
-	 * @see android.widget.TabHost.OnTabChangeListener#onTabChanged(java.lang.String)
-	 */
 	@Override
 	public void onTabChanged(String arg0) {
 		tv_overview.setText("");
