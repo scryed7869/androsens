@@ -62,6 +62,8 @@ public class Androsens extends TabActivity implements TabHost.OnTabChangeListene
         	showDialog(LICENSEDIALOG);
         }
         
+        
+        
         oriHead = (TextView) this.findViewById(R.id.TextView_oriHead);
         accHead = (TextView) this.findViewById(R.id.TextView_accHead);
         magHead = (TextView) this.findViewById(R.id.TextView_magHead);
@@ -95,6 +97,7 @@ public class Androsens extends TabActivity implements TabHost.OnTabChangeListene
         
         
         tv_overview= (TextView) this.findViewById(R.id.TextViewOverview);
+        tv_overview.setText("");
         
         m_sensormgr  = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
         m_sensorlist =  m_sensormgr.getSensorList(Sensor.TYPE_ALL);
@@ -253,6 +256,7 @@ public class Androsens extends TabActivity implements TabHost.OnTabChangeListene
 		m_sensormgr.unregisterListener(senseventListener);
 		if(!m_sensorlist.isEmpty()){
         	Sensor snsr;
+        	tv_overview.setText("");
         	for(int i=0;i<m_sensorlist.size();i++){
         		snsr=m_sensorlist.get(i);
         		
