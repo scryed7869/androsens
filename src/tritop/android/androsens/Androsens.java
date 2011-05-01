@@ -136,9 +136,9 @@ public class Androsens extends TabActivity implements TabHost.OnTabChangeListene
 			       pb_orientationA.setProgress( (int)event.values[0]);
 			       pb_orientationB.setProgress( Math.abs((int)event.values[1]));
 			       pb_orientationC.setProgress( Math.abs((int)event.values[2]));
-			       tv_orientationA.setText(""+event.values[0]);
-			       tv_orientationB.setText(""+event.values[1]);
-			       tv_orientationC.setText(""+event.values[2]);
+			       tv_orientationA.setText(String.format("%.1f",event.values[0]));
+			       tv_orientationB.setText(String.format("%.1f",event.values[1]));
+			       tv_orientationC.setText(String.format("%.1f",event.values[2]));
 			}
 			if(event.sensor.getType()==Sensor.TYPE_ACCELEROMETER){
 				   accAccu.setText(accuracy);
