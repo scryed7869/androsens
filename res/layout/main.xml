@@ -12,15 +12,15 @@
 				<LinearLayout android:id="@+id/LinearLayout02" android:layout_width="fill_parent" android:orientation="vertical" android:layout_height="fill_parent">
 					<TextView android:layout_width="fill_parent" android:id="@+id/TextView_oriHead" android:layout_height="wrap_content" android:text="No Sensor found"/>
 					<TextView android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/oriAccuracy"></TextView><LinearLayout android:id="@+id/LinearLayout05" android:layout_height="wrap_content" android:layout_width="fill_parent">
-						<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="50px" android:id="@+id/TextView_oriA" />
+						<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextView_oriA" android:width="60px"/>
 						<ProgressBar android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/ProgressBar_oriA" style="?android:attr/progressBarStyleHorizontal" />
 					</LinearLayout>
 					<LinearLayout android:id="@+id/LinearLayout06" android:layout_height="wrap_content" android:layout_width="fill_parent">
-						<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="50px" android:id="@+id/TextView_oriB" />
+						<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextView_oriB" android:width="60px"/>
 						<ProgressBar android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/ProgressBar_oriB" style="?android:attr/progressBarStyleHorizontal" />
 					</LinearLayout>
 					<LinearLayout android:id="@+id/LinearLayout07" android:layout_height="wrap_content" android:layout_width="fill_parent">
-						<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="50px" android:id="@+id/TextView_oriC" />
+						<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextView_oriC" android:width="60px"/>
 						<ProgressBar android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/ProgressBar_oriC" style="?android:attr/progressBarStyleHorizontal" />
 					</LinearLayout>
 				
@@ -28,15 +28,15 @@
 				<LinearLayout android:id="@+id/LinearLayout03" android:layout_width="fill_parent" android:orientation="vertical" android:layout_height="fill_parent">
 					<TextView android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/TextView_accHead" android:text="No Sensor found"/>
 					<TextView android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/accAccuracy"></TextView><LinearLayout android:id="@+id/LinearLayout08" android:layout_height="wrap_content" android:layout_width="fill_parent">
-						<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="50px" android:id="@+id/TextView_accA" />
+						<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextView_accA" android:width="60px"/>
 						<ProgressBar android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/ProgressBar_accA" style="?android:attr/progressBarStyleHorizontal" />
 					</LinearLayout>
 					<LinearLayout android:id="@+id/LinearLayout09" android:layout_height="wrap_content" android:layout_width="fill_parent">
-						<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="50px" android:id="@+id/TextView_accB" />
+						<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextView_accB" android:width="60px"/>
 						<ProgressBar android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/ProgressBar_accB" style="?android:attr/progressBarStyleHorizontal" />
 					</LinearLayout>
 					<LinearLayout android:id="@+id/LinearLayout10" android:layout_height="wrap_content" android:layout_width="fill_parent">
-						<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="50px" android:id="@+id/TextView_accC" />
+						<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextView_accC" android:width="60px"/>
 						<ProgressBar android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/ProgressBar_accC" style="?android:attr/progressBarStyleHorizontal" />
 					</LinearLayout>
 				
@@ -44,15 +44,15 @@
 				<LinearLayout android:id="@+id/LinearLayout04" android:layout_width="fill_parent" android:orientation="vertical" android:layout_height="fill_parent">
 					<TextView android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/TextView_magHead" android:text="No Sensor found"/><TextView android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/magAccuracy"></TextView>
 					<LinearLayout android:id="@+id/LinearLayout11" android:layout_height="wrap_content" android:layout_width="fill_parent">
-						<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="50px" android:id="@+id/TextView_magA" />
+						<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextView_magA" android:width="60px"/>
 						<ProgressBar android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/ProgressBar_magA" style="?android:attr/progressBarStyleHorizontal" />
 					</LinearLayout>
 					<LinearLayout android:id="@+id/LinearLayout12" android:layout_height="wrap_content" android:layout_width="fill_parent">
-						<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="50px" android:id="@+id/TextView_magB" />
+						<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextView_magB" android:width="60px"/>
 						<ProgressBar android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/ProgressBar_magB" style="?android:attr/progressBarStyleHorizontal" />
 					</LinearLayout>
 					<LinearLayout android:id="@+id/LinearLayout13" android:layout_height="wrap_content" android:layout_width="fill_parent">
-						<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:width="50px" android:id="@+id/TextView_magC" />
+						<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextView_magC" android:width="60px"/>
 						<ProgressBar android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/ProgressBar_magC" style="?android:attr/progressBarStyleHorizontal" />
 					</LinearLayout>
 				
